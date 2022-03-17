@@ -23,7 +23,7 @@ class OpenblockDesktopUpdater {
             console.log('INFO: The current system setting region is China, use DigitalOcean as the update server.');
             autoUpdater.setFeedURL({
                 provider: 'spaces',
-                name: 'openblock',
+                name: 'aopuqdp',
                 path: 'desktop',
                 region: 'sgp1'
             });
