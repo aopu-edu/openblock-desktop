@@ -59,17 +59,86 @@ jobs:
     needs: create-release
     runs-on: windows-2019
     steps:
-      - uses: actions/checkout@v2
-
       - name: Use Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '14.x'
 
-      - name: Npm Install
-        run: |
+      - name: link Install
+        uses: actions/checkout@v2
+        with: 
+          repository: aopu-edu/openblock-link
+          ref: refs/heads/qdp
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-link
+      - run: |
+          cd openblock-link
           npm ci
+          npm link
 
+      - name: resource Install
+        uses: actions/checkout@v2
+        with: 
+          repository: aopu-edu/openblock-resource
+          ref: refs/heads/qdp
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-resource
+      - run: |
+          cd openblock-resource
+          npm ci
+          npm link
+
+      - name: vm Install
+        uses: actions/checkout@v2
+        with: 
+          repository: aopu-edu/openblock-vm
+          ref: refs/heads/qdp
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-vm  
+      - run: |
+          cd openblock-vm
+          npm ci
+          npm link
+
+      - name: l10n Install
+        uses: actions/checkout@v2
+        with: 
+          repository: aopu-edu/openblock-l10n
+          ref: refs/heads/qdp
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-l10n  
+      - run: |
+          cd openblock-l10n
+          npm ci
+          npm run build
+          npm link --force
+
+      - name: gui Install
+        uses: actions/checkout@v2
+        with: 
+          repository: aopu-edu/openblock-gui
+          ref: refs/heads/desktopqdp
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-gui  
+      - run: |
+          cd openblock-gui
+          npm ci
+          npm install --save-dev encoding@^0.1.13 iconv browser
+          npm link
+          npm link openblock-vm openblock-l10n
+
+      - name: desktop Install
+        uses: actions/checkout@v2
+        with: 
+          repository: aopu-edu/openblock-desktop
+          ref: refs/heads/qdp
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-desktop  
+      - run: |
+          cd openblock-desktop
+          npm ci
+          npm link openblock-vm openblock-l10n openblock-link openblock-resource openblock-gui
+                   
       - name: Build and Publish
         env:
           GA_ID: ${{ secrets.GA_ID }}
@@ -78,21 +147,93 @@ jobs:
           DO_SECRET_KEY: ${{ secrets.DO_SECRET_KEY }}
           NODE_ENV: production
           NODE_OPTIONS: --max_old_space_size=4096
-        run: npm run publish
+        run: |
+          cd openblock-desktop
+          npm run publish
 
   build-mac:
     needs: create-release
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
-
       - name: Use Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '14.x'
 
-      - name: Npm Install
-        run: npm ci
+      - name: link Install
+        uses: actions/checkout@v2
+        with: 
+          repository: aopu-edu/openblock-link
+          ref: refs/heads/qdp
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-link
+      - run: |
+          cd openblock-link
+          npm i
+          npm link
+
+      - name: resource Install
+        uses: actions/checkout@v2
+        with: 
+          repository: aopu-edu/openblock-resource
+          ref: refs/heads/qdp
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-resource
+      - run: |
+          cd openblock-resource
+          npm i
+          npm link
+
+      - name: vm Install
+        uses: actions/checkout@v2
+        with: 
+          repository: aopu-edu/openblock-vm
+          ref: refs/heads/qdp
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-vm  
+      - run: |
+          cd openblock-vm
+          npm i
+          npm link
+
+      - name: l10n Install
+        uses: actions/checkout@v2
+        with: 
+          repository: aopu-edu/openblock-l10n
+          ref: refs/heads/qdp
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-l10n  
+      - run: |
+          cd openblock-l10n
+          npm i
+          npm run build
+          npm link --force
+
+      - name: gui Install
+        uses: actions/checkout@v2
+        with: 
+          repository: aopu-edu/openblock-gui
+          ref: refs/heads/desktopqdp
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-gui  
+      - run: |
+          cd openblock-gui
+          npm i
+          npm install --save-dev encoding@^0.1.13 iconv browser
+          npm link
+          npm link openblock-vm openblock-l10n
+      
+      - name: desktop Install
+        uses: actions/checkout@v2
+        with: 
+          repository: aopu-edu/openblock-desktop
+          ref: refs/heads/qdp
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-desktop  
+      - run: |
+          cd openblock-desktop
+          npm i
+          npm link openblock-vm openblock-l10n openblock-link openblock-resource openblock-gui
 
       - name: Build and Publish
         env:
@@ -103,4 +244,6 @@ jobs:
           NODE_ENV: production
           NODE_OPTIONS: --max_old_space_size=8192
           CSC_IDENTITY_AUTO_DISCOVERY: false
-        run: npm run publish
+        run: |
+          cd openblock-desktop
+          npm run publish
