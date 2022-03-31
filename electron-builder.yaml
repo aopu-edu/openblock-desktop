@@ -9,7 +9,7 @@ productName: "OpenBlock Desktop"
 publish:
   - provider: github
   - provider: spaces
-    name: openblock
+    name: aopuqdp
     path: desktop
     region: sgp1
 
