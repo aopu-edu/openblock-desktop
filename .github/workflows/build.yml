@@ -53,6 +53,9 @@ jobs:
           cd openblock-vm
           npm ci
           npm link
+          sed -i "" "s/https:\/\/tfhub.dev\/google/http:\/\/www.gstaticcnapps.cn\/tfhub-tfjs-modules\/google/g" `grep "https://tfhub.dev/google" -rl node_modules/`
+          sed -i "" "s/https:\/\/tfhub.dev\/tensorflow/http:\/\/www.gstaticcnapps.cn\/tfhub-tfjs-modules\/tensorflow/g" `grep "https://tfhub.dev/tensorflow" -rl node_modules/`
+          sed -i "" "s/https:\/\/tfhub.dev/https:\/\/storage.googleapis.com\/tfhub-tfjs-modules/g" `grep "https://tfhub.dev" -rl node_modules/`
 
       - name: l10n Install
         uses: actions/checkout@v2
@@ -152,6 +155,9 @@ jobs:
           cd openblock-vm
           npm i
           npm link
+          sed -i "" "s/https:\/\/tfhub.dev\/google/http:\/\/www.gstaticcnapps.cn\/tfhub-tfjs-modules\/google/g" `grep "https://tfhub.dev/google" -rl node_modules/`
+          sed -i "" "s/https:\/\/tfhub.dev\/tensorflow/http:\/\/www.gstaticcnapps.cn\/tfhub-tfjs-modules\/tensorflow/g" `grep "https://tfhub.dev/tensorflow" -rl node_modules/`
+          sed -i "" "s/https:\/\/tfhub.dev/https:\/\/storage.googleapis.com\/tfhub-tfjs-modules/g" `grep "https://tfhub.dev" -rl node_modules/`
 
       - name: l10n Install
         uses: actions/checkout@v2
