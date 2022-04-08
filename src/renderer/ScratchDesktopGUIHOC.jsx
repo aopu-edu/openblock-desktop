@@ -179,23 +179,23 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
                             id="gui.desktopMenuBar.about"
                         />),
                         onClick: () => this.handleClickAbout()
-                    },
-                    {
-                        title: (<FormattedMessage
-                            defaultMessage="Privacy policy"
-                            description="Menu bar item for privacy policy"
-                            id="gui.menuBar.privacyPolicy"
-                        />),
-                        onClick: () => showPrivacyPolicy()
-                    },
-                    {
-                        title: (<FormattedMessage
-                            defaultMessage="Data settings"
-                            description="Menu bar item for data settings"
-                            id="gui.menuBar.dataSettings"
-                        />),
-                        onClick: () => this.props.onTelemetrySettingsClicked()
                     }
+                    // {
+                    //     title: (<FormattedMessage
+                    //         defaultMessage="Privacy policy"
+                    //         description="Menu bar item for privacy policy"
+                    //         id="gui.menuBar.privacyPolicy"
+                    //     />),
+                    //     onClick: () => showPrivacyPolicy()
+                    // },
+                    // {
+                    //     title: (<FormattedMessage
+                    //         defaultMessage="Data settings"
+                    //         description="Menu bar item for data settings"
+                    //         id="gui.menuBar.dataSettings"
+                    //     />),
+                    //     onClick: () => this.props.onTelemetrySettingsClicked()
+                    // }
                 ]}
                 onClickLogo={this.handleClickLogo}
                 onClickCheckUpdate={this.handleClickCheckUpdate}
@@ -260,8 +260,8 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
         onSetUpdate: arg => {
             dispatch(setUpdate(arg));
             dispatch(openUpdateModal());
-        },
-        onTelemetrySettingsClicked: () => dispatch(openTelemetryModal())
+        }
+        // onTelemetrySettingsClicked: () => dispatch(openTelemetryModal())
     });
 
     return connect(mapStateToProps, mapDispatchToProps)(ScratchDesktopGUIComponent);

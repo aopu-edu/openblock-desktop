@@ -27,6 +27,10 @@ const saveFilters = {
         name: 'OpenBlock Project',
         extensions: ['ob']
     },
+    QH: {
+        name: 'QDPRobot Project',
+        extensions: ['qh']
+    },
     Sprite2: {
         name: 'Scratch 2 Sprite',
         extensions: ['sprite2']
@@ -63,11 +67,12 @@ const loadFilters = {
         ]
     },
     AllProjects: {
-        name: 'All OpenBlock Projects',
+        name: 'All QDPRobot Projects',
         extensions: [
             ...saveFilters.SB3.extensions,
             ...saveFilters.SB2.extensions,
             ...saveFilters.SB.extensions,
+            ...saveFilters.QH.extensions,
             ...saveFilters.OB.extensions
         ]
     },

@@ -5,7 +5,7 @@ extraResources: ["tools", "external-resources", 'firmwares', "statics", "drivers
 extraFiles: ['LICENSE', 'LICENSE.OFL', 'LICENSE.ScratchFoundation', 'TRADEMARK']
 
 appId: openblock.cc.openblock-desktop
-productName: "OpenBlock Desktop"
+productName: "齐护编程"
 publish:
   - provider: github
   - provider: spaces
@@ -14,8 +14,8 @@ publish:
     region: sgp1
 
 fileAssociations:
-  ext: ob
-  name: OpenBlock project file
+  ext: qh
+  name: QDPRobot project file
   role: Editor
   icon: buildResources/OpenBlockFile.ico
 
@@ -31,12 +31,12 @@ mac:
   hardenedRuntime: true
   icon: buildResources/OpenBlockDesktop.icns
   provisioningProfile: embedded.provisionprofile
-  artifactName: "OpenBlock-Desktop_${version}.${ext}"
+  artifactName: "QDPRobot-Desktop_${version}.${ext}"
   target:
     - dmg
     # - mas
 dmg:
-  title: "OpenBlock-Desktop_${version}"
+  title: "QDPRobot-Desktop_${version}"
 # mas:
 #   category: public.app-category.education
 #   entitlements: buildResources/entitlements.mas.plist
@@ -62,4 +62,4 @@ nsis:
   allowToChangeInstallationDirectory: true
   include: buildResources/installer.nsh
 #   license: LICENSE
-  artifactName: "OpenBlock-Desktop_${version}.${ext}"
+  artifactName: "QDPRobot-Desktop_${version}.${ext}"
