@@ -18,6 +18,27 @@ jobs:
         with:
           node-version: '14.x'
 
+      - name: blocks Install
+        uses: actions/checkout@v2
+        with: 
+          repository: aopu-edu/openblock-blocks
+          ref: refs/heads/qdp
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-blocks
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '2.x' 
+          architecture: 'x64'
+      - run: |
+          cd openblock-blocks
+          npm ci
+          npm link
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x' 
+          architecture: 'x64'
+
       - name: link Install
         uses: actions/checkout@v2
         with: 
@@ -93,7 +114,7 @@ jobs:
           npm ci
           npm install --save-dev encoding@^0.1.13 iconv browser
           npm link
-          npm link openblock-vm openblock-l10n
+          npm link openblock-vm openblock-l10n openblock-blocks
 
       - name: desktop Install
         uses: actions/checkout@v2
@@ -105,7 +126,7 @@ jobs:
       - run: |
           cd openblock-desktop
           npm ci
-          npm link openblock-vm openblock-l10n openblock-link openblock-resource openblock-gui
+          npm link openblock-vm openblock-l10n openblock-link openblock-resource openblock-gui openblock-blocks
                    
       - name: Build Dist
         env:
@@ -130,6 +151,18 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14.x'
+
+      - name: blocks Install
+        uses: actions/checkout@v2
+        with: 
+          repository: aopu-edu/openblock-blocks
+          ref: refs/heads/qdp
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-blocks
+      - run: |
+          cd openblock-blocks
+          npm ci
+          npm link
 
       - name: link Install
         uses: actions/checkout@v2
@@ -195,7 +228,7 @@ jobs:
           npm i
           npm install --save-dev encoding@^0.1.13 iconv browser
           npm link
-          npm link openblock-vm openblock-l10n
+          npm link openblock-vm openblock-l10n openblock-blocks
       
       - name: desktop Install
         uses: actions/checkout@v2
@@ -207,7 +240,7 @@ jobs:
       - run: |
           cd openblock-desktop
           npm i
-          npm link openblock-vm openblock-l10n openblock-link openblock-resource openblock-gui
+          npm link openblock-vm openblock-l10n openblock-link openblock-resource openblock-gui openblock-blocks
 
       - name: Build Dist
         env:
