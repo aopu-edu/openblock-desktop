@@ -281,7 +281,7 @@ const createPrivacyWindow = () => {
 const createLoadingWindow = () => {
     const window = createWindow({
         width: 800,
-        height: 150,
+        height: 460,
         frame: false,
         resizable: false,
         transparent: true,
