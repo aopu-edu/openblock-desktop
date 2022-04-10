@@ -2,7 +2,7 @@
   "name": "openblock-desktop",
   "productName": "齐护编程",
   "description": "QDPRobot as a self-contained desktop application",
-  "author": "Openblock.cc Team",
+  "author": "QDPRobot Team",
   "version": "2.3.0",
   "license": "MIT",
   "scripts": {
