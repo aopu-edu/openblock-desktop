@@ -259,7 +259,7 @@ const createWindow = ({search = null, url = 'index.html', ...browserWindowOption
 const createAboutWindow = () => {
     const window = createWindow({
         width: 400,
-        height: 400,
+        height: 500,
         parent: _windows.main,
         search: 'route=about',
         title: `About ${productName}`
