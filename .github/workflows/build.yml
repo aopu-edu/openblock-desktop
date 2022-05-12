@@ -2,7 +2,8 @@ name: Build Test App
 
 on:
   push:
-    branches: [ qdp ]
+    tags:
+      - 'v*'
     paths-ignore:
       - 'README.md'
       - 'CHANGE.md'

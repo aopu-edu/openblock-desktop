@@ -87,6 +87,18 @@ jobs:
           cd openblock-resource
           npm ci
           npm link
+     
+      - name: resource-cli Install
+        uses: actions/checkout@v2
+        with:
+          repository: aopu-edu/openblock-resource-cli
+          ref: refs/heads/main
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-resource-cli
+      - run: |
+          cd openblock-resource-cli
+          npm ci
+          npm link
 
       - name: vm Install
         uses: actions/checkout@v2
@@ -99,9 +111,8 @@ jobs:
           cd openblock-vm
           npm ci
           npm link
-          sed -i "" "s/https:\/\/tfhub.dev\/google/http:\/\/www.gstaticcnapps.cn\/tfhub-tfjs-modules\/google/g" `grep "https://tfhub.dev/google" -rl node_modules/`
-          sed -i "" "s/https:\/\/tfhub.dev\/tensorflow/http:\/\/www.gstaticcnapps.cn\/tfhub-tfjs-modules\/tensorflow/g" `grep "https://tfhub.dev/tensorflow" -rl node_modules/`
-          sed -i "" "s/https:\/\/tfhub.dev/https:\/\/storage.googleapis.com\/tfhub-tfjs-modules/g" `grep "https://tfhub.dev" -rl node_modules/`
+          cd node_modules
+          replace-tfhub
 
       - name: l10n Install
         uses: actions/checkout@v2
