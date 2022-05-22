@@ -64,6 +64,18 @@ jobs:
           npm ci
           npm link
 
+      - name: resource-cli Install
+        uses: actions/checkout@v2
+        with:
+          repository: aopu-edu/openblock-resource-cli
+          ref: refs/heads/main
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-resource-cli
+      - run: |
+          cd openblock-resource-cli
+          npm ci
+          npm link
+
       - name: learningml Install
         uses: actions/checkout@v2
         with: 
@@ -77,18 +89,6 @@ jobs:
           npm link
           cd node_modules
           replace-tfhub
-
-      - name: resource-cli Install
-        uses: actions/checkout@v2
-        with:
-          repository: aopu-edu/openblock-resource-cli
-          ref: refs/heads/main
-          token: ${{ secrets.GH_PAT }}
-          path: openblock-resource-cli
-      - run: |
-          cd openblock-resource-cli
-          npm ci
-          npm link
 
       - name: vm Install
         uses: actions/checkout@v2
