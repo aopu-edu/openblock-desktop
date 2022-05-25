@@ -3,7 +3,7 @@ name: Build Test App
 on:
   push:
     tags:
-      - 'v*'
+      - 'vqdp*'
     paths-ignore:
       - 'README.md'
       - 'CHANGE.md'
