@@ -105,22 +105,22 @@ class OpenblockDesktopUpdater {
         });
         autoUpdater.once('update-available', applicationUpdateInfo => {
             this.removeAllAutoUpdaterListeners();
-            // this.applicationAvailable(applicationUpdateInfo);
+            this.applicationAvailable(applicationUpdateInfo);
         });
         autoUpdater.once('update-not-available', () => {
             this.removeAllAutoUpdaterListeners();
+            this._resourceServer.checkUpdate()
+                .then(resourceUpdateInfo => {
+                    if (resourceUpdateInfo.updateble) {
+                        this.resourceAvailable(resourceUpdateInfo);
+                    }
+                })
+                .catch(err => {
+                    console.warn(`Error while checking for resource update: ${err}`);
+                });
         });
-        this._resourceServer.checkUpdate()
-            .then(resourceUpdateInfo => {
-                if (resourceUpdateInfo.updateble) {
-                    this.resourceAvailable(resourceUpdateInfo);
-                }
-            })
-            .catch(err => {
-                console.warn(`Error while checking for resource update: ${err}`);
-            });
 
-        // autoUpdater.checkForUpdates();
+        autoUpdater.checkForUpdates();
     }
 
     reqeustCheckUpdate () {
@@ -149,28 +149,29 @@ class OpenblockDesktopUpdater {
         autoUpdater.once('update-available', applicationUpdateInfo => {
             this.updaterState = UPDATE_MODAL_STATE.applicationUpdateAvailable;
             this.removeAllAutoUpdaterListeners();
-            // this.applicationAvailable(applicationUpdateInfo);
+            this.applicationAvailable(applicationUpdateInfo);
         });
         autoUpdater.once('update-not-available', () => {
             this.removeAllAutoUpdaterListeners();
-        });
-        this.abortController = new AbortController();
-        this._resourceServer.checkUpdate({signal: this.abortController.signal})
-            .then(resourceUpdateInfo => {
-                if (resourceUpdateInfo.updateble) {
-                    this.updaterState = UPDATE_MODAL_STATE.resourceUpdateAvailable;
-                    this.resourceAvailable(resourceUpdateInfo);
-                } else {
-                    this.reportUpdateState({phase: 'latest'});
-                }
-            })
-            .catch(err => {
-                this.reportUpdateState({phase: 'error', message: err});
-            });
-        this.updaterState = UPDATE_MODAL_STATE.checkingResource;
 
-        // autoUpdater.checkForUpdates();
-        // this.updaterState = UPDATE_MODAL_STATE.checkingApplication;
+            this.abortController = new AbortController();
+            this._resourceServer.checkUpdate({signal: this.abortController.signal})
+                .then(resourceUpdateInfo => {
+                    if (resourceUpdateInfo.updateble) {
+                        this.updaterState = UPDATE_MODAL_STATE.resourceUpdateAvailable;
+                        this.resourceAvailable(resourceUpdateInfo);
+                    } else {
+                        this.reportUpdateState({phase: 'latest'});
+                    }
+                })
+                .catch(err => {
+                    this.reportUpdateState({phase: 'error', message: err});
+                });
+            this.updaterState = UPDATE_MODAL_STATE.checkingResource;
+        });
+
+        autoUpdater.checkForUpdates();
+        this.updaterState = UPDATE_MODAL_STATE.checkingApplication;
     }
 
     reqeustUpdate () {
