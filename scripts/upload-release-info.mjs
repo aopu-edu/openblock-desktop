@@ -18,7 +18,7 @@ const s3Client = new S3({
 });
 
 const bucketParams = content => ({
-    Bucket: 'aopuqdp',
+    Bucket: 'openblock-ee-gs',
     Key: FILE_PATH,
     Body: Buffer.from(content, 'utf8'),
     ACL: 'public-read'

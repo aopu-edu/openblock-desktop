@@ -22,7 +22,7 @@ class OpenblockDesktopUpdater {
             console.log('INFO: The current system setting region is China, use DigitalOcean as the update server.');
             autoUpdater.setFeedURL({
                 provider: 'spaces',
-                name: 'aopuqdp',
+                name: 'openblock-ee-gs',
                 path: 'desktop',
                 region: 'sgp1'
             });
@@ -55,7 +55,7 @@ class OpenblockDesktopUpdater {
         this.updateTarget = UPDATE_TARGET.application;
 
         if (this.isCN) {
-            const url = `https://openblock.sgp1.digitaloceanspaces.com/desktop/latestRelease.json`;
+            const url = `https://openblock-ee-gs.sgp1.digitaloceanspaces.com/desktop/latestRelease.json`;
 
             fetch(url)
                 .then(res => res.json())
