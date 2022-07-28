@@ -190,22 +190,6 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
                             id="gui.desktopMenuBar.license"
                         />),
                         onClick: () => this.handleClickLicense()
-                    },
-                    {
-                        title: (<FormattedMessage
-                            defaultMessage="Privacy policy"
-                            description="Menu bar item for privacy policy"
-                            id="gui.menuBar.privacyPolicy"
-                        />),
-                        onClick: () => showPrivacyPolicy()
-                    },
-                    {
-                        title: (<FormattedMessage
-                            defaultMessage="Data settings"
-                            description="Menu bar item for data settings"
-                            id="gui.menuBar.dataSettings"
-                        />),
-                        onClick: () => this.props.onTelemetrySettingsClicked()
                     }
                     // {
                     //     title: (<FormattedMessage
