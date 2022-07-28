@@ -28,12 +28,12 @@ const licenseContent = {
         <div className={styles.licenseContent}>
             <p>
                 This End-User License Agreement (&quot;EULA&quot;) is a legal agreement
-                between you and OpenBlock (ShenZheng) Technology Co., Ltd..
+                between you and OpenBlock (ShenZhen) Technology Co., Ltd..
             </p>
             <p>
                 This EULA agreement governs your acquisition and use of our OpenBlockDesktopEE
-                software (&quot;Software&quot;) directly from OpenBlock (ShenZheng) Technology Co., Ltd.
-                or indirectly through a OpenBlock (ShenZheng) Technology Co., Ltd.
+                software (&quot;Software&quot;) directly from OpenBlock (ShenZhen) Technology Co., Ltd.
+                or indirectly through a OpenBlock (ShenZhen) Technology Co., Ltd.
                 authorized reseller or distributor (a &quot;Reseller&quot;).
             </p>
             <p>
@@ -57,16 +57,16 @@ const licenseContent = {
             </p>
             <p>
                 This EULA agreement shall apply only to the Software supplied by
-                OpenBlock (ShenZheng) Technology Co., Ltd.
+                OpenBlock (ShenZhen) Technology Co., Ltd.
                 herewith regardless of whether other software is referred to or described herein.
-                The terms also apply to any OpenBlock (ShenZheng) Technology Co., Ltd.
+                The terms also apply to any OpenBlock (ShenZhen) Technology Co., Ltd.
                 updates, supplements, Internet-based services, and support services for
                 the Software, unless other terms accompany those items on delivery.
                 If so, those terms apply.
             </p>
             <h3>License Grant</h3>
             <p>
-                OpenBlock (ShenZheng) Technology Co., Ltd. hereby grants you a personal,
+                OpenBlock (ShenZhen) Technology Co., Ltd. hereby grants you a personal,
                 non-transferable, non-exclusive licence to use the OpenBlockDesktopEE
                 software on your devices in accordance with the terms of this EULA agreement.
             </p>
@@ -100,28 +100,28 @@ const licenseContent = {
                     national or international law
                 </li>
                 <li>
-                    use the Software for any purpose that OpenBlock (ShenZheng) Technology Co., Ltd.
+                    use the Software for any purpose that OpenBlock (ShenZhen) Technology Co., Ltd.
                     considers is a breach of this EULA agreement
                 </li>
             </ul>
             <h3>Intellectual Property and Ownership</h3>
             <p>
-                OpenBlock (ShenZheng) Technology Co., Ltd. shall at all times retain ownership
+                OpenBlock (ShenZhen) Technology Co., Ltd. shall at all times retain ownership
                 of the Software as originally downloaded by you and all subsequent downloads
                 of the Software by you. The Software (and the copyright, and other intellectual
                 property rights of whatever nature in the Software,
                 including any modifications made thereto) are and shall remain the property of
-                OpenBlock (ShenZheng) Technology Co., Ltd..
+                OpenBlock (ShenZhen) Technology Co., Ltd..
             </p>
             <p>
-                OpenBlock (ShenZheng) Technology Co., Ltd. reserves the right to grant licences to
+                OpenBlock (ShenZhen) Technology Co., Ltd. reserves the right to grant licences to
                 use the Software to third parties.
             </p>
             <h3>Termination</h3>
             <p>
                 This EULA agreement is effective from the date you first use the Software and
                 shall continue until terminated. You may terminate it at any time upon written
-                notice to OpenBlock (ShenZheng) Technology Co., Ltd..
+                notice to OpenBlock (ShenZhen) Technology Co., Ltd..
             </p>
             <p>
                 It will also terminate immediately if you fail to comply with any term of this
