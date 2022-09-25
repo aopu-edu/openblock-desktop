@@ -76,6 +76,20 @@ jobs:
           npm ci
           npm link
 
+      - name: learningml Install
+        uses: actions/checkout@v2
+        with: 
+          repository: aopu-edu/openblock-learningml
+          ref: refs/heads/main
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-learningml
+      - run: |
+          cd openblock-learningml
+          npm i
+          npm link
+          cd node_modules
+          replace-tfhub
+
       - name: vm Install
         uses: actions/checkout@v2
         with: 
@@ -128,6 +142,7 @@ jobs:
           cd openblock-desktop
           npm ci
           npm link openblock-vm openblock-l10n openblock-link openblock-resource openblock-gui openblock-blocks
+          npm link openblock-learningml
                    
       - name: Build Dist
         env:
@@ -189,6 +204,21 @@ jobs:
           npm i
           npm link
 
+      - name: learningml Install
+        uses: actions/checkout@v2
+        with: 
+          repository: aopu-edu/openblock-learningml
+          ref: refs/heads/main
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-learningml
+      - run: |
+          cd openblock-learningml
+          npm i
+          npm link
+          sed -i "" "s/https:\/\/tfhub.dev\/google/http:\/\/www.gstaticcnapps.cn\/tfhub-tfjs-modules\/google/g" `grep "https://tfhub.dev/google" -rl node_modules/`
+          sed -i "" "s/https:\/\/tfhub.dev\/tensorflow/http:\/\/www.gstaticcnapps.cn\/tfhub-tfjs-modules\/tensorflow/g" `grep "https://tfhub.dev/tensorflow" -rl node_modules/`
+          sed -i "" "s/https:\/\/tfhub.dev/https:\/\/storage.googleapis.com\/tfhub-tfjs-modules/g" `grep "https://tfhub.dev" -rl node_modules/`
+
       - name: vm Install
         uses: actions/checkout@v2
         with: 
@@ -242,6 +272,7 @@ jobs:
           cd openblock-desktop
           npm i
           npm link openblock-vm openblock-l10n openblock-link openblock-resource openblock-gui openblock-blocks
+          npm link openblock-learningml
 
       - name: Build Dist
         env:

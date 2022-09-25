@@ -9,6 +9,7 @@ import compareVersions from 'compare-versions';
 
 import OpenBlockLink from 'openblock-link';
 import OpenblockResourceServer from 'openblock-resource';
+import LMLServer from 'openblock-learningml';
 
 class OpenblockDesktopLink {
     constructor () {
@@ -36,6 +37,7 @@ class OpenblockDesktopLink {
         this._resourceServer = new OpenblockResourceServer(this.dataPath,
             path.join(this.appPath, 'external-resources'),
             app.getLocaleCountryCode());
+        this._lmlServer = new LMLServer(path.join(this.appPath, 'learningml'));
     }
 
     get resourceServer () {
@@ -83,6 +85,7 @@ class OpenblockDesktopLink {
 
     start () {
         this._link.listen();
+        this._lmlServer.listen();
 
         // start resource server
         return this._resourceServer.initializeResources()
