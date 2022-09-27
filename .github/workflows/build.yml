@@ -143,8 +143,6 @@ jobs:
           npm ci
           npm link openblock-vm openblock-l10n openblock-link openblock-resource openblock-gui openblock-blocks
           npm link openblock-learningml
-          cd node_modules
-          replace-tfhub
                    
       - name: Build Dist
         env:
