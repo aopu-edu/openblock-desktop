@@ -3,7 +3,7 @@ name: Build Test App
 on:
   push:
     tags:
-      - 'vqdp*'
+      - 'vlml*'
     paths-ignore:
       - 'README.md'
       - 'CHANGE.md'
@@ -135,7 +135,7 @@ jobs:
         uses: actions/checkout@v2
         with: 
           repository: aopu-edu/openblock-desktop
-          ref: refs/heads/qdp
+          ref: refs/heads/ml
           token: ${{ secrets.GH_PAT }}
           path: openblock-desktop  
       - run: |
@@ -265,7 +265,7 @@ jobs:
         uses: actions/checkout@v2
         with: 
           repository: aopu-edu/openblock-desktop
-          ref: refs/heads/qdp
+          ref: refs/heads/ml
           token: ${{ secrets.GH_PAT }}
           path: openblock-desktop  
       - run: |
