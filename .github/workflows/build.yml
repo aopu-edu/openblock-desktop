@@ -121,7 +121,7 @@ jobs:
         uses: actions/checkout@v2
         with: 
           repository: aopu-edu/openblock-gui
-          ref: refs/heads/desktopqdp
+          ref: refs/heads/desktoplml
           token: ${{ secrets.GH_PAT }}
           path: openblock-gui  
       - run: |
@@ -251,7 +251,7 @@ jobs:
         uses: actions/checkout@v2
         with: 
           repository: aopu-edu/openblock-gui
-          ref: refs/heads/desktopqdp
+          ref: refs/heads/desktoplml
           token: ${{ secrets.GH_PAT }}
           path: openblock-gui  
       - run: |
