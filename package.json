@@ -16,7 +16,7 @@
     "fetch:exts": "rimraf ./external-resources && node ./node_modules/openblock-resource/script/download.js  --repo=aopu-edu/external-resources --plat=github",
     "fetch:firmwares": "rimraf ./firmwares && node ./node_modules/openblock-link/script/download-firmwares.js",
     "fetch:tools": "rimraf ./tools && node ./node_modules/openblock-link/script/download-tools.js",
-    "fetch:static": "rimraf ./static && mkdirp ./static && git clone https://github.com/aopu-edu/openblock-asset.git static && rimraf ./static/.git",
+    "fetch:static": "rimraf ./static && mkdirp ./static && git clone https://github.com/aopu-edu/openblock-assets.git static && rimraf ./static/.git",
     "fetch:all": "npm run fetch:drivers && npm run fetch:exts && npm run fetch:firmwares && npm run fetch:tools && npm run fetch:static",
     "build": "npm run build:dev",
     "build:dev": "npm run compile && npm run doBuild -- --mode=dev",
@@ -38,6 +38,7 @@
     "bytes": "^3.1.2",
     "openblock-link": "^0.2.0-prerelease.20220404092817",
     "openblock-resource": "^0.2.0-prerelease.20220702143332",
+    "openblock-learningml": "^0.1.0",
     "postinstall": "^0.7.4",
     "source-map-support": "^0.5.19"
   },
