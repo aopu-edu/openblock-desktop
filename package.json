@@ -13,7 +13,7 @@
     "start": "mkdirp ./dist && electron-webpack dev --bail --display-error-details --env.minify=false --no-progress",
     "compile": "mkdirp ./dist && electron-webpack --bail --display-error-details --env.minify=false --no-progress",
     "fetch:drivers": "rimraf ./drivers && node scripts/download-driver.js",
-    "fetch:exts": "rimraf ./external-resources && node ./node_modules/openblock-resource/script/download.js  --repo=aopu-edu/external-resources",
+    "fetch:exts": "rimraf ./external-resources && node ./node_modules/openblock-resource/script/download.js  --repo=aopu-edu/external-resources --plat=github",
     "fetch:firmwares": "rimraf ./firmwares && node ./node_modules/openblock-link/script/download-firmwares.js",
     "fetch:tools": "rimraf ./tools && node ./node_modules/openblock-link/script/download-tools.js",
     "fetch:static": "rimraf ./static && mkdirp ./static && git clone https://github.com/aopu-edu/openblock-assets.git static && rimraf ./static/.git",
@@ -38,6 +38,7 @@
     "bytes": "^3.1.2",
     "openblock-link": "^0.2.0-prerelease.20220404092817",
     "openblock-resource": "^0.2.0-prerelease.20220702143332",
+    "openblock-learningml": "^0.1.0",
     "postinstall": "^0.7.4",
     "source-map-support": "^0.5.19"
   },

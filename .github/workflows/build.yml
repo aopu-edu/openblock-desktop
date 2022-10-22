@@ -76,6 +76,18 @@ jobs:
           npm ci
           npm link
 
+      - name: learningml Install
+        uses: actions/checkout@v2
+        with: 
+          repository: aopu-edu/openblock-learningml
+          ref: refs/heads/main
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-learningml
+      - run: |
+          cd openblock-learningml
+          npm i
+          npm link
+
       - name: vm Install
         uses: actions/checkout@v2
         with: 
@@ -128,6 +140,7 @@ jobs:
           cd openblock-desktop
           npm ci
           npm link openblock-vm openblock-l10n openblock-link openblock-resource openblock-gui openblock-blocks
+          npm link openblock-learningml
                    
       - name: Build Dist
         env:
@@ -189,6 +202,18 @@ jobs:
           npm i
           npm link
 
+      - name: learningml Install
+        uses: actions/checkout@v2
+        with: 
+          repository: aopu-edu/openblock-learningml
+          ref: refs/heads/main
+          token: ${{ secrets.GH_PAT }}
+          path: openblock-learningml
+      - run: |
+          cd openblock-learningml
+          npm i
+          npm link
+
       - name: vm Install
         uses: actions/checkout@v2
         with: 
@@ -242,6 +267,7 @@ jobs:
           cd openblock-desktop
           npm i
           npm link openblock-vm openblock-l10n openblock-link openblock-resource openblock-gui openblock-blocks
+          npm link openblock-learningml
 
       - name: Build Dist
         env:
