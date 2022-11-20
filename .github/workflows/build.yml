@@ -35,9 +35,9 @@ jobs:
           npm ci
           npm link
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v3
         with:
-          python-version: '3.x' 
+          python-version: '3.7.x'
           architecture: 'x64'
 
       - name: link Install
@@ -177,6 +177,11 @@ jobs:
           cd openblock-blocks
           npm ci
           npm link
+      
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.7.x'
+          architecture: 'x64'
 
       - name: link Install
         uses: actions/checkout@v2
