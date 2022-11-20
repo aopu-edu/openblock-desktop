@@ -55,10 +55,25 @@ win:
 #   identityName: "OpenblockTeam.OpenblockDesktop
 #   publisherDisplayName: "OpenBlock Team"
 #   publisher: "CN=2EC43DF1-469A-4119-9AB9-568A0A1FF65F"
-#   artifactName: "OpenBlock ${version}.${ext}"
 nsis:
   oneClick: false # allow user to choose per-user or per-machine
   allowToChangeInstallationDirectory: true
   include: buildResources/installer.nsh
 #   license: LICENSE
   artifactName: "QDPRobot-Desktop_${version}.${ext}"
+
+linux:
+  category: Education
+  icon: buildResources/linux
+  desktop:
+    - Encoding: UTF-8
+    - Name: OpenBlockDesktop
+    - Icon: openblock-desktop
+    - Type: Application
+    - Terminal: false
+  target:
+    - deb
+
+deb:
+  depends: ["libnotify4", "libxtst6", "libnss3"]
+
