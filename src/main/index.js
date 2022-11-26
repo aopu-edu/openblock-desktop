@@ -30,6 +30,10 @@ app.allowRendererProcessReuse = true;
 // allow connect to localhost
 app.commandLine.appendSwitch('allow-insecure-localhost', 'true');
 
+// enable gpu and ignore gpu blacklist
+app.commandLine.hasSwitch('enable-gpu');
+app.commandLine.hasSwitch('ignore-gpu-blacklist');
+
 telemetry.appWasOpened();
 
 const defaultSize = {width: 1600, height: 900};
