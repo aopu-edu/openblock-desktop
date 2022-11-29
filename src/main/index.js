@@ -451,17 +451,18 @@ const createMainWindow = () => {
     });
 
     ipcMain.on('reqeustUpdate', () => {
-        update.reqeustUpdate()
-            .then(() => {
-                setTimeout(() => {
-                    console.log(`INFO: App will restart after 3 seconds`);
-                    app.relaunch();
-                    app.exit();
-                }, 1000 * 3);
-            })
-            .catch(err => {
-                console.error(`ERR!: update failed: ${err}`);
-            });
+        update.reqeustUpdate();
+        const title = formatMessage({
+            id: 'index.warnRestartAfterUpdateTitle',
+            default: 'Warn',
+            description: 'Warn'
+        });
+        const message = formatMessage({
+            id: 'index.warnRestartAfterUpdateMessage',
+            default: 'To make the resource effective, please restart the software after the update is complete!',
+            description: 'message for restart the software'
+        });
+        dialog.showMessageBox(_windows.main, {type: 'warning', title, message});
     });
 
     ipcMain.on('abortUpdate', () => {

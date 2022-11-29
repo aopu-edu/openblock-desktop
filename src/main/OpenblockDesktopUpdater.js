@@ -3,6 +3,8 @@ import {autoUpdater, CancellationToken} from 'electron-updater';
 import log from 'electron-log';
 import bytes from 'bytes';
 import path from 'path';
+import os from 'os';
+import {execFile, spawn} from 'child_process';
 import fetch from 'electron-fetch';
 
 import formatMessage from 'format-message';
@@ -28,11 +30,20 @@ class OpenblockDesktopUpdater {
             });
         }
 
-        const appPath = app.getAppPath();
-        if (appPath.search(/main/g) !== -1) {
-            autoUpdater.logger = log;
-            autoUpdater.logger.transports.file.level = 'info';
-            autoUpdater.updateConfigPath = path.join(appPath, '../win-unpacked/resources/app-update.yml');
+        this.appPath = app.getAppPath();
+        if (this.appPath.search(/app/g) !== -1) {
+            // Normal app
+            this.appPath = path.join(this.appPath, '../../');
+        } else if (this.appPath.search(/main/g) !== -1) { // eslint-disable-line no-negated-condition
+            // Start by start script in debug mode.
+            if (os.platform() === 'linux') {
+                this.appPath = path.join(this.appPath, '../../');
+            } else {
+                this.appPath = path.join(this.appPath, '../../../');
+            }
+        } else {
+            // App in dir mode
+            this.appPath = path.join(this.appPath, '../');
         }
 
         this.updaterState = null;
@@ -146,7 +157,7 @@ class OpenblockDesktopUpdater {
                 });
             }
         });
-        autoUpdater.once('update-available', applicationUpdateInfo => {
+        autoUpdater.once('update-available', () => {
             this.updaterState = UPDATE_MODAL_STATE.applicationUpdateAvailable;
             this.removeAllAutoUpdaterListeners();
             // this.applicationAvailable(applicationUpdateInfo);
@@ -173,112 +184,123 @@ class OpenblockDesktopUpdater {
         // this.updaterState = UPDATE_MODAL_STATE.checkingApplication;
     }
 
-    reqeustUpdate () {
-        if (this.updateTarget === UPDATE_TARGET.application) {
-            this.cancellationToken = new CancellationToken();
-            autoUpdater.downloadUpdate(this.cancellationToken);
-            this.updaterState = UPDATE_MODAL_STATE.applicationDownloading;
-
-            const PROGRESS_BASE_VALUE = 0;
-            const PROGRESS_DOWNLOADING_PROGRESS_VALUE = 0.1;
-            const PROGRESS_STEP_INTERVAL = 0.5; // 0.5s
-            const PROGRESS_STEP_TIMEOUT = 20; // 20s
-            const PROGRESS_STEP_VALUE = (PROGRESS_DOWNLOADING_PROGRESS_VALUE - PROGRESS_BASE_VALUE) /
-                (PROGRESS_STEP_TIMEOUT / PROGRESS_STEP_INTERVAL);
-
-            let downloadInProgress = false;
-
-            const stepProgressBar = progress => {
-                this.startDownloadTimeout = setTimeout(() => {
-                    if (!downloadInProgress && progress <= PROGRESS_DOWNLOADING_PROGRESS_VALUE) {
-                        this.reportUpdateState({
-                            phase: UPDATE_MODAL_STATE.applicationDownloading,
-                            info: {
-                                progress: progress
-                            }
-                        });
-                        stepProgressBar(progress + PROGRESS_STEP_VALUE);
-                    } else {
-                        this.startDownloadTimeout = null;
-                    }
-                }, PROGRESS_STEP_INTERVAL * 1000);
-            };
-
-            // After start downloading, it takes a while for download-progress event to trigger,
-            // report a progress that grows slowly over time let user know the downloading is started and running.
-            this.reportUpdateState({
-                phase: UPDATE_MODAL_STATE.applicationDownloading,
-                info: {
-                    progress: PROGRESS_BASE_VALUE
-                }
-            });
-            stepProgressBar(PROGRESS_BASE_VALUE);
-
-            return new Promise((resolve, reject) => {
-
-                autoUpdater.on('error', err => reject(err));
-
-                autoUpdater.on('download-progress', progressObj => {
-                    downloadInProgress = true;
-                    this.reportUpdateState({
-                        phase: UPDATE_MODAL_STATE.applicationDownloading,
-                        info: {
-                            progress: ((progressObj.percent * (1 - PROGRESS_DOWNLOADING_PROGRESS_VALUE)) +
-                                (PROGRESS_DOWNLOADING_PROGRESS_VALUE * 100)) / 100,
-                            state: {
-                                speed: `${bytes(progressObj.bytesPerSecond)}/s`,
-                                total: bytes(progressObj.total),
-                                done: bytes(progressObj.transferred)
-                            }
-                        }
-                    });
-                });
-
-                autoUpdater.on('update-downloaded', () => {
-                    this.reportUpdateState({phase: UPDATE_MODAL_STATE.applicationDownloadFinish});
-                    setTimeout(() => {
-                        console.log(`INFO: App will quit and install after 3 seconds`);
-                        autoUpdater.quitAndInstall();
-                    }, 1000 * 3);
-                });
-            });
-
+    updateResource () {
+        const driverPath = path.join(this.appPath, 'updaters');
+        if ((os.platform() === 'win32')) {
+            execFile('update_win.bat', [], {cwd: driverPath});
+        } else if ((os.platform() === 'darwin')) {
+            spawn('sh', ['update_mac.sh'], {shell: true, cwd: driverPath});
         }
-        const reportResourceUpdateState = res => {
-            if (this.updaterState !== UPDATE_MODAL_STATE.abort) {
-                this.reportUpdateState({
-                    phase: UPDATE_MODAL_STATE.resourceUpdating,
-                    info: {
-                        phase: res.phase,
-                        progress: res.progress,
-                        state: res.state
-                    }
-                });
-            }
-        };
+    }
 
-        this.abortController = new AbortController();
+    reqeustUpdate () {
+        this.updateResource();
+        // if (this.updateTarget === UPDATE_TARGET.application) {
+        //     this.cancellationToken = new CancellationToken();
+        //     autoUpdater.downloadUpdate(this.cancellationToken);
+        //     this.updaterState = UPDATE_MODAL_STATE.applicationDownloading;
 
-        this.updaterState = UPDATE_MODAL_STATE.resourceUpdating;
-        return this._resourceServer.update({
-            signal: this.abortController.signal,
-            callback: reportResourceUpdateState
-        })
-            .then(() => {
-                this.reportUpdateState({phase: UPDATE_MODAL_STATE.resourceUpdatFinish});
-                return Promise.resolve();
-            })
-            .catch(err => {
-                if (!err.stack.startsWith('AbortError')) {
-                    this.reportUpdateState({
-                        phase: UPDATE_MODAL_STATE.error,
-                        info: {
-                            message: err.message
-                        }
-                    });
-                }
-                return Promise.reject(err);
-            });
+        //     const PROGRESS_BASE_VALUE = 0;
+        //     const PROGRESS_DOWNLOADING_PROGRESS_VALUE = 0.1;
+        //     const PROGRESS_STEP_INTERVAL = 0.5; // 0.5s
+        //     const PROGRESS_STEP_TIMEOUT = 20; // 20s
+        //     const PROGRESS_STEP_VALUE = (PROGRESS_DOWNLOADING_PROGRESS_VALUE - PROGRESS_BASE_VALUE) /
+        //         (PROGRESS_STEP_TIMEOUT / PROGRESS_STEP_INTERVAL);
+
+        //     let downloadInProgress = false;
+
+        //     const stepProgressBar = progress => {
+        //         this.startDownloadTimeout = setTimeout(() => {
+        //             if (!downloadInProgress && progress <= PROGRESS_DOWNLOADING_PROGRESS_VALUE) {
+        //                 this.reportUpdateState({
+        //                     phase: UPDATE_MODAL_STATE.applicationDownloading,
+        //                     info: {
+        //                         progress: progress
+        //                     }
+        //                 });
+        //                 stepProgressBar(progress + PROGRESS_STEP_VALUE);
+        //             } else {
+        //                 this.startDownloadTimeout = null;
+        //             }
+        //         }, PROGRESS_STEP_INTERVAL * 1000);
+        //     };
+
+        //     // After start downloading, it takes a while for download-progress event to trigger,
+        //     // report a progress that grows slowly over time let user know the downloading is started and running.
+        //     this.reportUpdateState({
+        //         phase: UPDATE_MODAL_STATE.applicationDownloading,
+        //         info: {
+        //             progress: PROGRESS_BASE_VALUE
+        //         }
+        //     });
+        //     stepProgressBar(PROGRESS_BASE_VALUE);
+
+        //     return new Promise((resolve, reject) => {
+
+        //         autoUpdater.on('error', err => reject(err));
+
+        //         autoUpdater.on('download-progress', progressObj => {
+        //             downloadInProgress = true;
+        //             this.reportUpdateState({
+        //                 phase: UPDATE_MODAL_STATE.applicationDownloading,
+        //                 info: {
+        //                     progress: ((progressObj.percent * (1 - PROGRESS_DOWNLOADING_PROGRESS_VALUE)) +
+        //                         (PROGRESS_DOWNLOADING_PROGRESS_VALUE * 100)) / 100,
+        //                     state: {
+        //                         speed: `${bytes(progressObj.bytesPerSecond)}/s`,
+        //                         total: bytes(progressObj.total),
+        //                         done: bytes(progressObj.transferred)
+        //                     }
+        //                 }
+        //             });
+        //         });
+
+        //         autoUpdater.on('update-downloaded', () => {
+        //             this.reportUpdateState({phase: UPDATE_MODAL_STATE.applicationDownloadFinish});
+        //             setTimeout(() => {
+        //                 console.log(`INFO: App will quit and install after 3 seconds`);
+        //                 autoUpdater.quitAndInstall();
+        //             }, 1000 * 3);
+        //         });
+        //     });
+
+        // }
+        // const reportResourceUpdateState = res => {
+        //     if (this.updaterState !== UPDATE_MODAL_STATE.abort) {
+        //         this.reportUpdateState({
+        //             phase: UPDATE_MODAL_STATE.resourceUpdating,
+        //             info: {
+        //                 phase: res.phase,
+        //                 progress: res.progress,
+        //                 state: res.state
+        //             }
+        //         });
+        //     }
+        // };
+
+        // this.abortController = new AbortController();
+
+        // this.updaterState = UPDATE_MODAL_STATE.resourceUpdating;
+        
+        // return this._resourceServer.update({
+        //     signal: this.abortController.signal,
+        //     callback: reportResourceUpdateState
+        // })
+        //     .then(() => {
+        //         this.reportUpdateState({phase: UPDATE_MODAL_STATE.resourceUpdatFinish});
+        //         return Promise.resolve();
+        //     })
+        //     .catch(err => {
+        //         if (!err.stack.startsWith('AbortError')) {
+        //             this.reportUpdateState({
+        //                 phase: UPDATE_MODAL_STATE.error,
+        //                 info: {
+        //                     message: err.message
+        //                 }
+        //             });
+        //         }
+        //         return Promise.reject(err);
+        //     });
 
     }
 

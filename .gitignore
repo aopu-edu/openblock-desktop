@@ -27,6 +27,7 @@ npm-*
 /tools
 /firmwares
 /drivers
+/updaters
 
 
 # generated translation files
