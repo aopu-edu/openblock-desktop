@@ -443,7 +443,7 @@ const createMainWindow = () => {
 
         webContents.send('setPlatform', process.platform);
 
-        update.checkUpdateAtStartup();
+        // update.checkUpdateAtStartup();
     });
 
     ipcMain.on('reqeustCheckUpdate', () => {
