@@ -92,9 +92,9 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
                 this.props.onSetUpdate(args);
             });
             ipcRenderer.on('setUserId', (event, args) => {
-                initialAnalytics(args);
-                // Register "base" page view
-                analytics.pageview('/', null, 'desktop');
+                // initialAnalytics(args);
+                // // Register "base" page view
+                // analytics.pageview('/', null, 'desktop');
             });
             ipcRenderer.on('setPlatform', (event, args) => {
                 this.platform = args;
