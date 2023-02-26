@@ -1,9 +1,9 @@
 {
   "name": "openblock-desktop",
-  "productName": "齐护编程",
+  "productName": "QDProbot",
   "description": "QDPRobot as a self-contained desktop application",
   "author": "QDPRobot Team",
-  "version": "2.3.5",
+  "version": "2.3.6",
   "license": "MIT",
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
