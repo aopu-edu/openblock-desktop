@@ -3,7 +3,7 @@
   "productName": "QDProbot",
   "description": "QDPRobot as a self-contained desktop application",
   "author": "QDPRobot Team",
-  "version": "2.3.6",
+  "version": "2.3.7",
   "license": "MIT",
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
